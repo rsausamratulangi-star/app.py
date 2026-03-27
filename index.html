@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Eksklusif 910</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #000;
+            --wa-color: #25D366;
+            --text-muted: #666;
+            --bg-color: #f8f9fa;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; 
+            padding: 0; 
+            color: #333;
+        }
+
+        header {
+            background: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+
+        header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        header p { color: var(--text-muted); margin-top: 5px; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px 50px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+        }
+
+        .img-container {
+            width: 100%;
+            padding-top: 100%; /* Square Aspect Ratio */
+            position: relative;
+            background: #fdfdfd;
+        }
+
+        .card img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info h3 {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .btn-wa {
+            background-color: var(--wa-color);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-wa:hover { opacity: 0.9; }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .info { padding: 12px; }
+            .info h3 { font-size: 0.85rem; }
+            .price { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>910 Footwear Catalog</h1>
+        <p>Koleksi Lengkap & Pemesanan Cepat via WhatsApp</p>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            {% for p in products %}
+            <div class="card">
+                <div class="img-container">
+                    <img src="{{ p.images[0].src if p.images else 'https://via.placeholder.com/300' }}" alt="{{ p.title }}">
+                </div>
+                <div class="info">
+                    <h3>{{ p.title }}</h3>
+                    <div class="price">Rp {{ p.variants[0].price }}</div>
+                    <a href="https://wa.me/{{ wa_number }}?text=Halo,%20saya%20ingin%20memesan%20sepatu%20berikut:%0A%0A*{{ p.title|urlencode }}*%0AHarga:%20Rp%20{{ p.variants[0].price }}%0A%0AApakah%20stok%20masih%20tersedia?" 
+                       target="_blank" class="btn-wa">
+                        Beli via WhatsApp
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
